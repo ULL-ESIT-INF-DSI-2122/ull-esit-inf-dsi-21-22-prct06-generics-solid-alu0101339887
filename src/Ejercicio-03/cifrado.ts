@@ -64,7 +64,7 @@ export class Cifrado {
   desplazamientoDescifrado(): void {
     for (let i = 0; i < this.cadenaClave.length; i++) {
       if (this.comprobarPos(this.cadenaClave[i]) === 0) this.informarError(this.cadenaClave[i]);
-      this.cifrar(this.datosDescifrado(i));
+      this.descifrar(this.datosCifrado(i));
     }
   }
 
@@ -72,12 +72,22 @@ export class Cifrado {
     return [this.comprobarPos(this.cadenaClave[index]), this.comprobarPos(this.cadena[index])];
   }
 
-  datosDescifrado(index: number): number[] {
-    return [this.comprobarPos(this.cadenaClave[index]), this.comprobarPos(this.cadenaFinal[index])];
-  }
+  // datosDescifrado(index: number): number[] {
+  //   return [this.comprobarPos(this.cadenaClave[index]), this.comprobarPos(this.cadenaFinal[index])];
+  // }
 
   cifrar(num: number[]): void {
     let tam = num[0] + num[1];
+    if (tam >= this.alfabeto.length) {
+      while (tam > this.alfabeto.length)
+        tam = tam - this.alfabeto.length;
+    }
+    this.cadenaFinal = this.cadenaFinal + this.alfabeto[tam - 1];
+  }
+
+  // Arreglar
+  descifrar(num: number[]): void {
+    let tam = num[1] - num[0];
     if (tam >= this.alfabeto.length) {
       while (tam > this.alfabeto.length)
         tam = tam - this.alfabeto.length;
@@ -91,7 +101,8 @@ export class Cifrado {
   }
 
   descifrado() {
-    this.cifrado();
+    this.cadena = this.cadenaFinal;
+    this.cadenaFinal = "";
     this.desplazamientoDescifrado();
   }
 }
@@ -103,4 +114,5 @@ cifrado = new Cifrado("HOLA ESTO ES UNA PRUEBA", "CLAVE");
 cifrado.cifrado();
 console.log(cifrado.getCadenaFinal());
 console.log("kamwjvfpaxxzblwxqcw".toLocaleUpperCase());
+cifrado.descifrado();
 console.log(cifrado.getCadenaFinal());
