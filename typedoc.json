@@ -3,7 +3,10 @@
     "./src/Ejercicio-01/combat.ts",
     "./src/Ejercicio-01/pokedex.ts",
     "./src/Ejercicio-01/pokemon.ts",
-    "./src/Ejercicio-03/cifrado.ts"
+    "./src/Ejercicio-03/cifrado.ts",
+    "./src/Ejercicio-04/Arithmeticable.ts",
+    "./src/Ejercicio-04/ArithmeticableCollection.ts",
+    "./src/Ejercicio-04/Complex.ts"
   ],
   "out": "./docs"
 }

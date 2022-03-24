@@ -95,15 +95,4 @@ describe('Tests de la clase Combat', () => {
       expect(combat2.mostrarVida()).to.be.equal(undefined);
     });
   });
-  describe('Test de la función <<mostrarCombate>>', () => {
-    it('mostrarCombate es una función', () => {
-      expect(combat1.mostrarCombate).to.be.a('function');
-    });
-    it ('mostrarCombate() retorna undefined', () => {
-      expect(combat1.mostrarCombate()).to.be.equal(undefined);
-    });
-    it ('mostrarCombate() retorna undefined', () => {
-      expect(combat2.mostrarCombate()).to.be.equal(undefined);
-    });
-  });
 });
