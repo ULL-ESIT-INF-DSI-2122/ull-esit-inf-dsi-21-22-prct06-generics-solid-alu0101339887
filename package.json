@@ -7,7 +7,7 @@
     "test": "mocha",
     "coverage": "nyc npm test",
     "coverage_": "nyc npm test && nyc report --reporter=text-lcov | coveralls && rm -rf .nyc_output",
-    "start": "tsc-watch --onSuccess 'node dist/Ejercicio-03/cifrado.js'",
+    "start": "tsc-watch --onSuccess 'node dist/Ejercicio-03/Cifrado.js'",
     "doc": "typedoc",
     "make": "node ./dist/*.js"
   },
