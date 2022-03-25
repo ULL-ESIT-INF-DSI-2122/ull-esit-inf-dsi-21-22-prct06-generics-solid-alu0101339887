@@ -19,7 +19,7 @@ export class Cifrado {
   
   cifrado(aux: boolean): void{
     this.eliminarEspacios();
-    let desplazamiento = 0;
+    let desplazamiento = 0; 
     let nuevaPos = 0;
     for (let i = 0; i < this.cadena.length; i++) {
       for (let j = 0; j < this.clave.length; j++) {
