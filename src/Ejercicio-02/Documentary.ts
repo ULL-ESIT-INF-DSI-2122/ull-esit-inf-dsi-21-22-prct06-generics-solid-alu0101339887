@@ -1,5 +1,9 @@
 import {BasicStreamableCollection} from "./BasicStreamableCollection"
 
+/**
+ * Documentary es una clase heredada de BasicStreamableCollection que almacenará una 
+ * colección de documentales.
+ */
 export class Documentary<T> extends BasicStreamableCollection<T>{
   private time: number;
 
@@ -8,13 +12,19 @@ export class Documentary<T> extends BasicStreamableCollection<T>{
     this.time = time;
   }
 
+  /**
+   * Busca elementos según la duración del documental y los devuelve en caso de existir, en otro caso
+   * se muestra un mensaje de error.
+   * @param element Duración del elemento.
+   * @returns {T[] | string} Elementos de la colección o un mensaje de error.
+   */
   searchBy(element: string): T[] | string{
-    let genreItems: T[] = [];
+    let timeItems: T[] = [];
     for (let i = 0; i < this.items.length; i++) {
       if (this.time === Number(element))
-        genreItems.push(this.items[i]);
+        timeItems.push(this.items[i]);
     }
-    if (genreItems.length === 0) return "No se ha encontrado ningún elemento que dure esa cantidad de tiempo";
-    else return genreItems;
+    if (timeItems.length === 0) return "No se ha encontrado ningún elemento que dure esa cantidad de tiempo";
+    else return timeItems;
   }
 }
