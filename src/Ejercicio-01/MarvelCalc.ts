@@ -41,7 +41,7 @@ export class MarvelCalc extends Fighter {
    */
   damage (fighter: Fighter): number {
     if (fighter instanceof Marvel)
-      return Number((this.marvel.getExperiecia() * (this.getAtaque() / fighter.getDefensa()) * this.efectividad(this.getNombre(), fighter.getNombre())).toFixed(2));
+      return Number((this.marvel.getExperiencia() * (this.getAtaque() / fighter.getDefensa()) * this.efectividad(this.getNombre(), fighter.getNombre())).toFixed(2));
     else
       return Number((10 * (this.getAtaque() / fighter.getDefensa())).toFixed(2));
   }

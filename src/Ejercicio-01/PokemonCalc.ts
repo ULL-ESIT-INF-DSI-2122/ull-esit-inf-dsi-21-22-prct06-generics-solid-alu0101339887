@@ -6,7 +6,8 @@ export class PokemonCalc extends Fighter {
               ataque: number, 
               defensa: number, 
               velocidad: number, 
-              HP: number) {
+              HP: number,
+              private pokemon: Pokemon) {
     super(nombre, ataque, defensa, velocidad, HP);
   }
 
