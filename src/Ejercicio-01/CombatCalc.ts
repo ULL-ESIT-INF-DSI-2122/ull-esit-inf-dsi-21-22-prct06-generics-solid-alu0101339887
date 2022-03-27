@@ -2,6 +2,10 @@ import { Combat } from "./Combat";
 import { Fighter } from "./Fighter";
 import { CombatPrinter } from "./CombatPrinter";
 
+/**
+ * CombatCalc realizará todos los cálculos necesarios para que se pueda
+ * llevar a cabo el combate entre dos luchadores. 
+ */
 export class CombatCalc {
   constructor (private combat: Combat, 
                private fighterA: Fighter, 
@@ -15,8 +19,8 @@ export class CombatCalc {
   }
 
   /**
-   * Función para relizar el combate entre los dos pokémon.
-   * @returns Retornará el nombre del pokémon ganador.
+   * Función para relizar el combate entre los dos luchador.
+   * @returns Retornará el nombre del luchador ganador.
    */
   combate(): string {
     this.print.mostrarInicioCombate();
@@ -47,8 +51,8 @@ export class CombatCalc {
   }
 
   /**
-   * Función para reducir la vida del pokémon que recibió el ataque.
-   * @param damage Daño causado de un pokémon sobre otro.
+   * Función para reducir la vida del luchador que recibió el ataque.
+   * @param damage Daño causado de un luchador sobre otro.
    */
   vida(damage: number): void {
     if (this.combat.getTurno() % 2 === 0) {
