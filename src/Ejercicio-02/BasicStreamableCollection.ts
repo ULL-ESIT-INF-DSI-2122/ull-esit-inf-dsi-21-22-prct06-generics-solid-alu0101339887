@@ -2,7 +2,7 @@ import {Streamable} from "./Streamable"
 
 /**
  * BasicStreamableCollection es una clase abstracta que almacenará una colección de películas, 
- * searie y documentales.
+ * series y documentales.
  */
 export abstract class BasicStreamableCollection<T> implements Streamable<T> {
   protected items: T[] = [];
@@ -52,8 +52,7 @@ export abstract class BasicStreamableCollection<T> implements Streamable<T> {
   }
 
   /**
-   * Busca un elemento según su nombre y lo devuelve en caso de existir, en otro caso
-   * se muestra un mensaje de error.
+abstract searchByName(
    * @param name Nombre del elemento.
    * @returns {T | string} Elemento de la colección o un mensaje de error.
    */

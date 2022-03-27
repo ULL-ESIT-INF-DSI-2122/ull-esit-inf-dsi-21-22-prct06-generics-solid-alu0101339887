@@ -458,6 +458,225 @@ getFighters(): Fighter[] {
 
 ## Ejercicio 2. DSIflix.
 
+En este segundo ejercicio tendremos que crear un conjunto de clases e interfaces que guarden la información de una plataforma de vídeo en streaming.
+
+### Interfaces ```StreamableCol```, ```StreamableSearch``` y ```Streamable```
+
+- ```StreamableCol```. Almacenará todas las funciones necesarias para manejar los elementos de nuestra colección de contenido audiovisual.
+
+```
+export interface StreamableCol <T> {
+  addItem(item: T): void;
+  getAllItems(): T[];
+  getItem(index: number): T;
+  removeItem(index: number): void;
+  getNumberOfItems(): number;
+}
+```
+
+- ```StreamableSearch```. Se encargará de almacenar las funciones que tendrán como objetivo realizar búsquedas en nuestra colección. 
+
+```
+export interface StreamableSearch <T> {
+  searchByName(name: string): T | string;
+  searchByGenre(genre: string): T[] | string;
+  searchByYear(year: number): T[] | string;
+  searchBy(element: string): T[] | string;
+}
+```
+
+- ```Streamable```. Esta interfaz contendrá a las dos anteriores y será la que se implementará en nuestra clase para poder definir cada uno de los métodos. 
+
+```
+export interface Streamable <T> extends StreamableCol <T>, StreamableSearch <T> {}
+```
+
+### Clase ```BasicStreamableCollection```
+
+BasicStreamableCollection es una clase abstracta que almacenará una colección de películas, series y documentales. Además, en ella se implementará la interfaz ```Streamable```, por lo que se tendrán que definir todas las funciones que esta contenga. 
+
+- ```addItem()```. Añade un item de tipo T a la colección.
+
+```
+addItem(item: T): void {
+  this.items.push(item);
+}
+```
+
+- ```getAllItems()```. Devuelve todos los elementos de la colección.
+
+```
+getAllItems(): T[] {
+  return this.items;
+}
+```
+
+- ```getItem()```. Devuelve el elemento que se encuentre el la posición que se especifique de la colección.
+
+```
+getItem(index: number): T {
+  return this.items[index];
+}
+```
+
+- ```removeItem()```. Elimina un elemento de la colección por su índice.
+
+```
+removeItem(index: number): void {
+  this.items.splice(index, 1);
+}
+```
+
+- ```getNumberOfItems()```.  Devuelve el número de elementos de la colección.
+
+```
+getNumberOfItems(): number {
+  return this.items.length;
+}
+```
+
+- ```abstract searchByName()```. Busca un elemento según su nombre y lo devuelve en caso de existir, en otro caso se muestra un mensaje de error.
+
+```
+abstract searchByName(name: string): T | string;
+```
+
+- ```abstract searchByGenre()```. Busca elementos según su género y los devuelve en caso de existir, en otro caso se muestra un mensaje de error.
+
+```
+abstract searchByGenre(genre: string): T[] | string;
+```
+
+- ```abstract searchByYear()```. Busca elementos según su año de estreno y los devuelve en caso de existir, en otro caso se muestra un mensaje de error.
+
+```
+abstract searchByYear(year: number): T[] | string;
+```
+
+- ```abstract searchBy()```. Método abstracto de búsqueda.
+
+```
+abstract searchBy(element: string): T[] | string;
+```
+
+### Clases ```DocumentaryCollection```, ```MoviesCollection``` y ```SeriesCollection```
+
+Estas clases serán heredadas de la clase BasicStreamableCollection ya que tendrán en común la mayoría de las funciones que se encuentran en la clase BasicStreamableCollection. 
+
+Por otro lado, las dos funciones abstractas que se encuentran declaradas en la clase BasicStreamableCollection tendrán que ser definidas en cada una de las subclases, en este caso se definirían de la siguiente manera:
+
+#### ```searchByName()```
+
+En todos los casos se realizará la búsqueda de la misma forma, sin embargo, cambiará el tipo de objeto que se busque en cada caso. 
+
+```
+searchByName(name: string): Documentary | string {
+  for (let i = 0; i < this.items.length; i++) {
+    if (this.items[i].getName() === name) return this.items[i];
+  }
+  return "No se ha encontrado ningún elemento con este nombre";
+}
+-----------------------------------------------------------------
+searchByName(name: string): Movies | string {
+  ...
+}
+-----------------------------------------------------------------
+searchByName(name: string): Series | string {
+  ...
+}
+```
+
+#### ```searchByGenre()```
+
+En todos los casos se realizará la búsqueda de la misma forma, sin embargo, cambiará el tipo de objeto que se busque en cada caso. 
+
+```
+searchByGenre(genre: string): Documentary[] | string {
+  let genreItems: Documentary[] = [];
+  for (let i = 0; i < this.items.length; i++) {
+    if (this.items[i].getGenre() === genre) genreItems.push(this.items[i]);
+  }
+  if (genreItems.length === 0) return "No se ha encontrado ningún elemento de este género";
+  else return genreItems;
+}
+-----------------------------------------------------------------
+searchByGenre(genre: string): Movies[] | string {
+  ...
+}
+-----------------------------------------------------------------
+searchByGenre(genre: string): Series[] | string {
+  ...
+}
+```
+
+#### ```searchByYear()```
+
+En todos los casos se realizará la búsqueda de la misma forma, sin embargo, cambiará el tipo de objeto que se busque en cada caso. 
+
+```
+searchByYear(year: number): Documentary[] | string{
+  let yearItems: Documentary[] = [];
+  for (let i = 0; i < this.items.length; i++) {
+    if (this.items[i].getYear() === year) yearItems.push(this.items[i]);
+  }
+  if (yearItems.length === 0) return "No se ha encontrado ningún elemento de este año";
+  else return yearItems;
+}
+-----------------------------------------------------------------
+searchByYear(year: number): Movies[] | string {
+  ...
+}
+-----------------------------------------------------------------
+searchByYear(year: number): Series[] | string {
+  ...
+}
+```
+
+#### ```searchBy()```
+
+- ```DocumentaryCollection```. Busca elementos según la duración del documental y los devuelve en caso de existir, en otro caso se muestra un mensaje de error.
+
+```
+searchBy(element: string): Documentary[] | string{
+  let timeItems: Documentary[] = [];
+  for (let i = 0; i < this.items.length; i++) {
+    if (this.items[i].getTime() === Number(element))
+      timeItems.push(this.items[i]);
+  }
+  if (timeItems.length === 0) return "No se ha encontrado ningún elemento que dure esa cantidad de tiempo";
+  else return timeItems;
+}
+```
+
+- ```MoviesCollection```. Busca elementos según el tipo de película (Independiente, Saga, etc.) y los devuelve en caso de existir, en otro caso se muestra un mensaje de error.
+
+```
+searchBy(element: string): Movies[] | string{
+  let typeItems: Movies[] = [];
+  for (let i = 0; i < this.items.length; i++) {
+    if (this.items[i].getType() === element)
+      typeItems.push(this.items[i]);
+  }
+  if (typeItems.length === 0) return "No se ha encontrado ningún elemento con esa característica";
+  else return typeItems;
+}
+```
+
+- ```SeriesCollection```. Busca elementos según el número de capítulos que tenga la serie y los devuelve en caso de existir, en otro caso se muestra un mensaje de error.
+
+```
+searchBy(element: string): Series[] | string{
+  let capNumItems: Series[] = [];
+  for (let i = 0; i < this.items.length; i++) {
+    if (this.items[i].getCapNumber() === Number(element))
+      capNumItems.push(this.items[i]);
+  }
+  if (capNumItems.length === 0) return "No se ha encontrado ningún elemento con esa cantidad de capítulos";
+  else return capNumItems;
+}
+```
+
+
 
 
 
