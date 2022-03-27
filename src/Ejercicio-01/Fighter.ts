@@ -1,15 +1,12 @@
 /**
  * Clase para definir la información de cada pokémon.
  */
-export class Pokemon {
-  constructor(private nombre: string, 
-              private peso: number, 
-              private altura: number, 
-              private tipo: string, 
-              private ataque: number, 
-              private defensa: number, 
-              private velocidad: number, 
-              private HP: number) {
+ export abstract class Fighter {
+  constructor(protected nombre: string, 
+              protected ataque: number, 
+              protected defensa: number, 
+              protected velocidad: number, 
+              protected HP: number) {
   }
 
   /**
@@ -26,14 +23,6 @@ export class Pokemon {
    */
   getNombre(): string {
     return this.nombre;
-  }
-
-  /**
-   * Función que devuelve el tipo del pokémon.
-   * @returns Retornará el tipo del pokémon.
-   */
-  getTipo(): string {
-    return this.tipo;
   }
 
   /**
@@ -68,19 +57,7 @@ export class Pokemon {
     return this.HP;
   }
 
-  /**
-   * Función que devuelve el peso del pokémon.
-   * @returns Retornará el peso del pokémon.
-   */
-  getPeso(): number {
-    return this.peso;
-  }
+  abstract efectividad(caractA: string, caractB: string): number;
 
-  /**
-   * Función que devuelve la altura del pokémon.
-   * @returns Retornará la altura del pokémon.
-   */
-  getAltura(): number {
-    return this.altura;
-  }
+  abstract damage(fighter: Fighter): number;
 }

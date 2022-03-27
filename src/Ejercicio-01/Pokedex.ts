@@ -1,25 +1,25 @@
-import {Pokemon} from './pokemon';
+import { Fighter } from './Fighter';
 
 /**
  * Clase para almacenar los pokémon.
  */
 export class Pokedex {
-  constructor(private pokes: Pokemon[]) {
+  constructor(private fighters: Fighter[]) {
   }
 
   /**
    * Función para añadir un nuevo pokémon a la pokedex.
-   * @param pokemon 
+   * @param fighter 
    */
-  add(pokemon: Pokemon): void {
-    this.pokes.push(pokemon);
+  add(fighter: Fighter): void {
+    this.fighters.push(fighter);
   }
 
   /**
    * Función para obtener los pokémon que hay en la pokedex.
    * @returns Retornará una lista con todos los pokémon de la pokedex.
    */
-  getPokes(): Pokemon[] {
-    return this.pokes;
+  getFighters(): Fighter[] {
+    return this.fighters;
   }
 }
