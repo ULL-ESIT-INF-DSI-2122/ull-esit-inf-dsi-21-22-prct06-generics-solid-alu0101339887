@@ -4,13 +4,8 @@ import {Pokemon} from './pokemon'
  * Clase Combat. Contentrá las funciones necesarias para realizar el combate pokémon.
  */
 export class Combat {
-  private numTurno: number;
-  private msj: string;
-  constructor(private pokemonA: Pokemon, 
-              private pokemonB: Pokemon) {
-    this.numTurno = 0;
-    this.msj = "";
-  }
+  private numTurno: number = 0;
+  private msj: string = "";
 
   /**
    * Función para retornar el turno del combate.
@@ -27,12 +22,17 @@ export class Combat {
   setTurno(num: number): void{
     this.numTurno = num;
   }
+}
 
+export class CombatCalc {
+  constructor (private combat: Combat, 
+               private pokemonA: Pokemon, 
+               private pokemonB: Pokemon) {}
   /**
    * Función para aumentar el turno del combate.
    */
   aumentarTurno(): void {
-    this.setTurno(this.getTurno() + 1);
+    this.combat.setTurno(this.combat.getTurno() + 1);
   }
 
   /**
@@ -109,7 +109,7 @@ export class Combat {
    * @param damage Daño causado de un pokémon sobre otro.
    */
   vida(damage: number): void {
-    if (this.getTurno() % 2 === 0) {
+    if (this.combat.getTurno() % 2 === 0) {
       let aux = this.pokemonB.getHP() - damage;
       if (aux < 0)
         this.pokemonB.setHP(0);
@@ -129,7 +129,7 @@ export class Combat {
    * Función para mostrar la vida que tiene cada uno de los pokémon.
    */
   mostrarVida(): void {
-    this.msj = this.msj + `\n\n· HP de ${this.pokemonA.getNombre()}: ${this.pokemonA.getHP()}`;
-    this.msj = this.msj + `\n· HP de ${this.pokemonB.getNombre()}: ${this.pokemonB.getHP()}`;
+    this.combat.msj = this.combat.msj + `\n\n· HP de ${this.pokemonA.getNombre()}: ${this.pokemonA.getHP()}`;
+    this.combat.msj = this.combat.msj + `\n· HP de ${this.pokemonB.getNombre()}: ${this.pokemonB.getHP()}`;
   }
 }
