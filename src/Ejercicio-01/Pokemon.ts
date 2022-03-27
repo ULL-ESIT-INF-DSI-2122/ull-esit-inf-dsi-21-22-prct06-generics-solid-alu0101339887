@@ -1,4 +1,3 @@
-import { Fighter } from "./Fighter";
 /**
  * Clase para definir la información de cada pokémon.
  */

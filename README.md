@@ -4,7 +4,7 @@
 
 # INTRODUCCIÓN
 
-En esta práctica resolveremos distintos ejercicios centrándonos, sobretodo, en el uso de interfaces, clases, herencias de clases y aplicando el concepto **SOLID**. En este caso tendremos que realizar dos ejercicios, en los que tendremos que crear varios ficheros para cada uno de ellos. Todos estos ficheros podremos encontrarlos dentro de los directorios /Ejercicio-01, /Ejercicio-02, /Ejercicio-03 y Ejercicio-04 (siendo este últmino el ejercicio propuesto en la hora de prácticas), que a su vez, estarán ubicados dentro del directorio /src.
+En esta práctica resolveremos distintos ejercicios centrándonos, sobretodo, en el uso de interfaces, clases, herencias de clases y aplicando el concepto **SOLID**. En este caso tendremos que realizar dos ejercicios, en los que tendremos que crear varios ficheros para cada uno de ellos. Todos estos ficheros podremos encontrarlos dentro de los directorios _/Ejercicio-01_, _/Ejercicio-02_, _/Ejercicio-03_ y _Ejercicio-04_ (siendo este últmino el ejercicio propuesto en la hora de prácticas), que a su vez, estarán ubicados dentro del directorio /src.
 
 Por otro lado, también se creará la documentación, de forma automática, de todos los ejercicios que hayamos realizado haciendo uso de TypeDoc. Podremos consultar la documentación pulsando sobre el siguiente [_enlace_](https://github.com/ULL-ESIT-INF-DSI-2122/ull-esit-inf-dsi-21-22-prct06-generics-solid-alu0101339887/tree/main/docs) que le llevará al fichero o accediendo manualmente al directorio /docs.
 
@@ -12,6 +12,456 @@ Además, podrá acceder a la página web del informe pulsando sobre este [_enlac
 
 # DESARROLLO
 
+## Ejercicio 1. El combate definitivo.
+
+Para este primer ejercicio, cumpliendo con las normas del concepto SOLID, tendremos que crear varias clases para poder llevar a cabo un combate entre tres tipos de luchadores distintos (```Pokemon```, ```Marvel``` y ```Destiny```).
+
+### Clase ```Combat```
+
+Esta clase se encargará de guardar la información sobre el combate entre distintos tipos de luchadores.
+
+- ```getMsj```. Retornará el mensaje que se debe mostrar por pantalla.
+
+```
+getMsj(): string {
+  return this.msj;
+}
+```
+
+- ```getTurno```. Función para retornar el turno del combate.
+
+```
+getTurno(): number {
+  return this.numTurno;
+}
+```
+
+- ```setMsj```. Asignará el mensaje que se debe mostrar por pantalla.
+
+```
+setMsj(msj: string): void {
+  this.msj = msj;
+}
+```
+
+- ```setTurno```. Función para asignar el turno del combate.
+
+```
+setTurno(num: number): void{
+  this.numTurno = num;
+}
+```
+
+### Clase ```CombatCalc```
+
+**CombatCalc** realizará todos los cálculos necesarios para que se pueda llevar a cabo el combate entre dos luchadores.
+
+#### ```aumentarTurno```. 
+
+Esta función nos será util a la hora de querer aumentar el turno o la ronda del combate para así poder determinar a cuál de los dos luchadores le tocará atacar.
+
+Para ello, haciendo uso de las dos funciones nombradas anteriormente, le asignaremos al turno su valor en ese momento más 1:
+
+```
+aumentarTurno(): void {
+  this.combat.setTurno(this.combat.getTurno() + 1);
+}
+```
+
+#### ```combate()```.
+
+Esta función es la principal de nuestra clase ya que en ella se encuentra el conjunto de funciones organizadas de forma que el combate se pueda llevar a cabo. Para ello primero calcularemos el daño que producirán ambos luchadores el uno sobre el otro y lo guardaremos en una constante:
+
+```
+const DAMAGE_A = this.fighterA.damage(this.fighterB);
+const DAMAGE_B = this.fighterB.damage(this.fighterA);
+```
+
+Posteriormente crearemos un bucle while hasta que haya un ganador. Dentro de este bucle, estaremos comprobando contínuamente varias cuestiones:
+
+- El turno para saber a cuál de los dos luchadores le toca atacar.
+
+```
+if (this.combat.getTurno() % 2 === 0) {
+  this.vida(DAMAGE_A);
+  this.print.mostrarTurno(true);
+}
+else {
+  this.vida(DAMAGE_B);
+  this.print.mostrarTurno(false);
+}
+```
+
+- Mostrar la vida que le queda a los luchadores.
+
+```
+this.print.mostrarVida();
+```
+
+- Aumentar el turno.
+
+```
+this.aumentarTurno();
+```
+
+Finalmente, comprobaremos dos condiciones más, si alguno de los dos luchadores se ha debilitado o no.
+
+```
+if (this.fighterB.getHP() === 0) {
+  this.print.mostrarGanador(true);
+  // console.log(this.msj);
+  return this.fighterA.getNombre();
+}
+if (this.fighterA.getHP() === 0) {
+  this.print.mostrarGanador(false);
+  // console.log(this.msj);
+  return this.fighterB.getNombre();
+}
+```
+
+>> También es importante comentar que todos los mensajes que se deberían mostrar por pantalla se guardarán todos en el mismo atributo privado de la clase para así no hacer interferencias a la hora de realizar el testing de cada una de las funciones de la clase. En caso de querer visualizar por pantalla todo el proceso, simplemente se deberá decomentar las dos líneas que contienen el método console.log().
+
+#### ```vida()```
+
+La función principal de este método es asignarle al luchador que sufre el ataque una nueva cantidad de vida (HP) tras ese ataque. Podremos encontrarnos con dos casos distintos:
+
+- Tras recibir el daño su vida es mayor que 0: Se le asignará la diferencia del HP anterior con el daño recibido.
+
+```
+let aux = this.fighterB.getHP() - damage;
+------------------------------------------
+this.fighterB.setHP(aux);
+```
+
+- Tras recibir el daño su vida es menor o igual que 0: Se le asignará como HP 0 ya que no se puede llegar a tener un valor negativo de vida. Esto significaría estar debilitado.
+
+```
+let aux = this.fighterB.getHP() - damage;
+------------------------------------------
+this.fighterB.setHP(0);
+```
+
+### Clase ```CombatPrinter```
+
+CombatPrinter se encargará de imprimir los mensajes que deben salir por pantalla.
+
+- ```mostrarVida()```. Función para mostrar la vida que tiene cada uno de los luchadores.
+
+```
+mostrarVida(): void {
+  this.combat.setMsj(this.combat.getMsj() + `\n\n· HP de ${this.fighterA.getNombre()}: ${this.fighterA.getHP()}`);
+  this.combat.setMsj(this.combat.getMsj() + `\n· HP de ${this.fighterB.getNombre()}: ${this.fighterB.getHP()}`);
+}
+```
+
+- ```mostrarInicioCombate()```. Función para mostrar el inicio del combate.
+
+```
+mostrarInicioCombate(): void {
+  this.combat.setMsj(this.combat.getMsj() + "\n*************************************************");
+  this.combat.setMsj(this.combat.getMsj() + "\n\n\t-- COMIENZA EL COMBATE --");
+  this.combat.setMsj(this.combat.getMsj() + `\n\n\t  ${this.fighterA.getNombre().toUpperCase()} Vs. ${this.fighterB.getNombre().toUpperCase()}`);
+  this.combat.setMsj(this.combat.getMsj() + `\n\t       ${this.fighterA.getHP()}     ${this.fighterB.getHP()}`);
+  this.combat.setMsj(this.combat.getMsj() + "\n\n*************************************************");
+}
+```
+
+- ```mostrarTurno()```. Función para mostrar el turno del combate.
+
+```
+mostrarTurno(aux: boolean): void {
+  if (aux)
+    this.combat.setMsj(this.combat.getMsj() + `\n\n\t-- TURNO ${this.combat.getTurno() + 1} · Ataca ${this.fighterA.getNombre()} --`);
+  else
+    this.combat.setMsj(this.combat.getMsj() + `\n\n\t-- TURNO ${this.combat.getTurno() + 1} · Ataca ${this.fighterB.getNombre()} --`);
+}
+```
+
+- ```mostrarGanador()```. Función para mostrar el final del combate.
+
+```
+mostrarGanador(aux: boolean): void {
+  this.combat.setMsj(this.combat.getMsj() + "\n\n-------------------------------------------------");
+  if (aux)
+    this.combat.setMsj(this.combat.getMsj() + `\n\n\t -- FINAL --\n\n>> El ganador es: ${this.fighterA.getNombre()}`);
+  else
+    this.combat.setMsj(this.combat.getMsj() + `\n\n\t -- FINAL --\n\n>> El ganador es: ${this.fighterB.getNombre()}`);
+  this.combat.setMsj(this.combat.getMsj() + "\n\n-------------------------------------------------");
+}
+```
+
+>> Se ha tomado la decisión de crear tres clases distintas, implementadas en ficheros distintos cada una, para así respetar el concepto **SOLID**. 
+
+### Clase ```Fighter```
+
+En esta clase abstracta nos centraremos en crear todas aquellas funciones necesarias para almacenar, añadir y modificar los datos de cada uno de los luchadores que tengamos en nuestra pokedex. Entre todas esas funciones podemos encontras las siguientes:
+
+- ```setHP()```. Asigna la vida que tiene el luchador.
+
+```
+setHP(hp: number): void {
+  this.HP = hp;
+}
+```
+
+- ```getNombre()```. Función que devuelve el nombre del luchador.
+
+```
+getNombre(): string {
+  return this.nombre;
+}
+```
+
+- ```getAtaque()```. Función que devuelve el ataque del luchador.
+
+```
+getAtaque(): number {
+  return this.ataque;
+}
+```
+
+- ```getDefensa()```. Función que devuelve la defensa del luchador.
+
+```
+getDefensa(): number {
+  return this.defensa;
+}
+```
+
+- ```getVelocidad()```. Función que devuelve la velocidad del luchador.
+
+```
+getVelocidad(): number {
+  return this.velocidad;
+}
+```
+
+- ```getHP()```. Función que devuelve la vida del luchador.
+
+```
+getHP(): number {
+  return this.HP;
+}
+```
+
+- ```abstract efectividad()```. Función abstracta para calcular la efectividad del ataque. 
+
+```
+abstract efectividad(caractA: string, caractB: string): number;
+```
+
+- ```abstract damage()```. Función abstracta para calcular el daño del ataque. 
+
+```
+abstract damage(fighter: Fighter): number;
+```
+
+### Clase ```Destiny```
+
+Esta clase se encargará principalmente de definir la información de cada soldado.
+
+- ```getNaturaleza()```. Función que devuelve el naturaleza del soldado.
+
+```
+getNaturaleza(): string {
+  return this.naturaleza;
+}
+```
+
+- ```getAtaqueEspecial()```. Función que devuelve el arma del soldado.
+
+```
+getAtaqueEspecial(): number {
+  return this.ataqueEspecial;
+}
+```
+
+### Clase ```Marvel```
+
+Esta clase se encargará principalmente de definir la información de cada superhéroe.
+
+- ```getPoder()```. Función que devuelve el poder del superhéroe.
+
+```
+getPoder(): string {
+  return this.poder;
+}
+```
+
+- ```getExperiencia()```. Función que devuelve el experiecia del superhéroe.
+
+```
+getExperiencia(): number {
+  return this.experiencia;
+}
+```
+
+### Clase ```Pokemon```
+
+Esta clase se encargará principalmente de definir la información de cada pokémon.
+
+- ```getTipo()```. Función que devuelve el tipo del pokémon.
+
+```
+getTipo(): string {
+  return this.tipo;
+}
+```
+
+- ```getPeso()```. Función que devuelve el peso del pokémon.
+
+```
+getPeso(): number {
+  return this.peso;
+}
+```
+
+- ```getAltura()```. Función que devuelve la altura del pokémon.
+
+```
+getAltura(): number {
+  return this.altura;
+}
+```
+
+### Clases ```DestinyCalc```, ```MarvelCalc``` y ```PokemonCalc```
+
+Estas clases serán heredadas de la clase Fighter ya que tendrán en común la mayoría de las funciones que se encuentran en la clase Fighter. 
+
+Por otro lado, las dos funciones abstractas que se encuentran declaradas en la clase Fighter tendrán que ser definidas en cada una de las subclases, en este caso se definirían de la siguiente manera:
+
+#### ```efectividad()```. 
+
+Función para calcular la efectividad que tiene el primer luchador sobre el segundo.
+
+- ```DestinyCalc```
+
+```
+efectividad (naturalezaA: string, naturalezaB: string): number {
+  if ((naturalezaA === 'mago' && naturalezaB === 'tanque') || 
+      (naturalezaA === 'ágil' && naturalezaB === 'mago')) { 
+    return 2;
+  } 
+  if ((naturalezaA === 'tanque' && naturalezaB === 'ágil') || 
+      (naturalezaA === 'ágil' && naturalezaB === 'tanque')) {
+    return 1;
+  } 
+  return 0.5;
+}
+```
+
+>> La efectividad del ataque dependerá de la naturaleza del soldado.
+
+- ```MarvelCalc```
+
+```
+efectividad (poderA: string, poderB: string): number {
+  if ((poderA === 'martillo' && poderB === 'fuerza') || 
+      (poderA === 'armas' && poderB === 'fuerza') || 
+      (poderA === 'magia' && poderB === 'telaraña')) { 
+    return 2;
+  } 
+  if ((poderA === 'fuerza' && poderB === 'telaraña') || 
+      (poderA === 'telaraña' && poderB === 'fuerza') ||
+      (poderA === 'armas' && poderB === 'telaraña') || 
+      (poderA === 'telaraña' && poderB === 'armas') ||
+      (poderA === 'martillo' && poderB === 'magia') || 
+      (poderA === 'magia' && poderB === 'martillo')) {
+    return 1;
+  } 
+  return 0.5;
+}
+```
+
+>> La efectividad del ataque dependerá del poder del superhéroe.
+
+- ```PokemonCalc```
+
+```
+efectividad (tipoA: string, tipoB: string): number {
+  if ((tipoA === 'fuego' && tipoB === 'hierba') || 
+      (tipoA === 'agua' && tipoB === 'fuego') || 
+      (tipoA === 'hierba' && tipoB === 'agua')  || 
+      (tipoA === 'electrico' && tipoB === 'agua')) { 
+    return 2;
+  } 
+  if ((tipoA === 'fuego' && tipoB === 'electrico') || 
+      (tipoA === 'hierba' && tipoB === 'electrico') ||
+      (tipoA === 'electrico' && tipoB === 'fuego') || 
+      (tipoA === 'electrico' && tipoB === 'hierba')) {
+    return 1;
+  } 
+  return 0.5;
+}
+```
+
+>> La efectividad del ataque dependerá del tipo del pokémon.
+
+#### ```damage()```. 
+
+Función para calcular el daño que hace un luchador sobre su enemigo.
+
+- ```DestinyCalc```
+
+```
+damage (fighter: Fighter): number {
+  if (fighter instanceof Destiny) 
+    return Number((this.destiny.getAtaqueEspecial() * (this.getAtaque() / fighter.getDefensa()) * this.efectividad(this.getNombre(), fighter.getNombre())).toFixed(2));
+  else
+    return Number((10 * (this.getAtaque() / fighter.getDefensa())).toFixed(2));
+}
+```
+
+- ```MarvelCalc```
+
+```
+damage (fighter: Fighter): number {
+  if (fighter instanceof Marvel)
+    return Number((this.marvel.getExperiencia() * (this.getAtaque() / fighter.getDefensa()) * this.efectividad(this.getNombre(), fighter.getNombre())).toFixed(2));
+  else
+    return Number((10 * (this.getAtaque() / fighter.getDefensa())).toFixed(2));
+}
+```
+
+- ```PokemonCalc```
+
+```
+damage (fighter: Fighter): number {
+  if (fighter instanceof Pokemon)
+    return Number((50 * (this.getAtaque() / fighter.getDefensa()) * this.efectividad(this.getNombre(), fighter.getNombre())).toFixed(2));
+  else
+    return Number((10 * (this.getAtaque() / fighter.getDefensa())).toFixed(2));
+}
+```
+
+>> Dependiendo del tipo que sea el enemigo, el daño se calculará con una fórmula u otra. 
+
+### Clase ```Pokedex````
+
+En esta clase nos centraremos en el almacenamiento de todos los luchadores, para ello crearemos dos funciones:
+
+- ```add()```. Esta función se encargará de añadir nuevos luchadores a nuestra pokedex.
+
+```
+add(fighter: Fighter): void {
+  this.fighters.push(fighter);
+}
+```
+
+- ```getFighters()```. A partir de esta función podremos obtener todos los luchadores que tenemos en nuestra pokedex.
+
+```
+getFighters(): Fighter[] {
+  return this.fighters;
+}
+```
+
+## Ejercicio 2. DSIflix.
+
+
+
+
+## Ejercicio 3. El cifrado indescifrable.
 
 
 
