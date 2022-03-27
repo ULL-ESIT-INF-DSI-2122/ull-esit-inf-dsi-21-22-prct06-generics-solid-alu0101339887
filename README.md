@@ -463,8 +463,91 @@ getFighters(): Fighter[] {
 
 ## Ejercicio 3. El cifrado indescifrable.
 
+En este último ejercicio tendremos que crear una clase que realice el cifrado y el descifrado de un mensaje. Para ello crearemos los siguiente métodos:
 
+### ```getCadena()```
 
+Este método retornará el valor del mensaje introducido.
+
+```
+getCadena(): string {
+  return this.cadena;
+}
+```
+
+### ```eliminarEspacios()```
+
+Este método se encargará de eliminar los espacios del mensaje en caso de tener.
+
+```
+eliminarEspacios(): void {
+  let str = "";
+  for (let i = 0; i < this.cadena.length; i++)
+    if (this.cadena[i] !== " ") str = str + this.cadena[i];
+  this.cadena = str;
+}
+```
+
+### ```cifrado()```
+
+Con este método podremos tanto cifrar y como descifrar el mensaje introducido dependiendo de lo que el usuario indique.
+
+Lo primero que se deberá hacer es eliminar los espacios que pueda haber en la cadena introducida, esto se hará llamando a la función ```eliminarEspacios()```.
+
+A continuación, tendremos que recorrer tanto la cadena introducida como la clave para realizar el desplazamiento y asignación de las nuevas letras que tendrán que formar el mensaje resultante. 
+
+```
+for (let i = 0; i < this.cadena.length; i++) {
+  for (let j = 0; j < this.clave.length; j++) {
+    if (this.result.length === this.cadena.length) break;
+    if (this.alfabeto.search(this.cadena[i]) !== -1) {
+      desplazamiento = this.alfabeto.indexOf(this.clave[j]) + 1;
+      if (aux) nuevaPos = (desplazamiento + this.alfabeto.indexOf(this.cadena[i])) % this.alfabeto.length;
+      else nuevaPos = (this.alfabeto.indexOf(this.cadena[i]) - desplazamiento + this.alfabeto.length) % this.alfabeto.length;
+      this.result = this.result + this.alfabeto[nuevaPos];
+    }
+    else {
+      this.result = this.result + this.cadena[i];
+      j--;
+    }
+    i++;
+  }
+  i--;
+} 
+```
+
+Sin embargo, antes de realizar los cálculos del desplazamiento, primero se verificará si el usuario quiere cifrar o descifrar el mensaje:
+
+- ```aux === true```: Cifrar.
+- ```aux === false```: Descifrar.
+
+Es importante comentar que en caso de que la cadena resultante y la original sean del mismo tamaño el proceso acabará. 
+
+```
+if (this.result.length === this.cadena.length) break;
+```
+
+### ```cifrar()```
+
+Este método llamará a la función de cifrado indicando que se quiere cifrar el mensaje y retornará la cadena resultante, es decir, el texto cifrado.
+
+```
+cifrar(): string {
+  this.cifrado(true);
+  return this.result;
+}
+```
+
+### ```descifrar()```
+
+Este método llamará a la función de cifrado indicando que se quiere descifrar el mensaje y retornará la cadena resultante, es decir, el texto descifrado.
+
+```
+descifrar(): string {
+  this.cifrado(false);
+  return this.result;
+}
+```
 
 # CONCLUSIÓN
 
