@@ -1,10 +1,10 @@
-import {BasicStreamableCollection} from "./BasicStreamableCollection"
+import { Content } from "./Content"
 
 /**
- * Series es una clase heredada de BasicStreamableCollection que almacenará una 
- * colección de series.
+ * Series es una clase heredada de Content que almacenará la información de
+ * cada serie.
  */
-export class Series<T> extends BasicStreamableCollection<T>{
+export class Series extends Content {
   private capNumber: number;
 
   constructor(name: string, year: number, genre: string, capNumber: number) {
@@ -13,18 +13,10 @@ export class Series<T> extends BasicStreamableCollection<T>{
   }
 
   /**
-   * Busca elementos según el número de capítulos que tenga la serie y los devuelve 
-   * en caso de existir, en otro caso se muestra un mensaje de error.
-   * @param element Número de capítulos del elemento.
-   * @returns {T[] | string} Elementos de la colección o un mensaje de error.
+   * Devuelve el número de capítulos que tiene la serie.
+   * @returns {number} Número de capítulos.
    */
-  searchBy(element: string): T[] | string{
-    let capNumItems: T[] = [];
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.capNumber === Number(element))
-        capNumItems.push(this.items[i]);
-    }
-    if (capNumItems.length === 0) return "No se ha encontrado ningún elemento con esa cantidad de capítulos";
-    else return capNumItems;
+  getCapNumber(): number {
+    return this.capNumber;
   }
 }

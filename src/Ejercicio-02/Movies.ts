@@ -1,10 +1,10 @@
-import {BasicStreamableCollection} from "./BasicStreamableCollection"
+import { Content } from "./Content"
 
 /**
- * Movies es una clase heredada de BasicStreamableCollection que almacenará una 
- * colección de películas.
+ * Movies es una clase heredada de Content que almacenará la información de
+ * cada película.
  */
-export class Movies<T> extends BasicStreamableCollection<T>{
+export class Movies extends Content {
   private type: string;
 
   constructor(name: string, year: number, genre: string, type: string) {
@@ -13,18 +13,10 @@ export class Movies<T> extends BasicStreamableCollection<T>{
   }
 
   /**
-   * Busca elementos según el tipo de película (Independiente, Saga, etc.) y los devuelve 
-   * en caso de existir, en otro caso se muestra un mensaje de error.
-   * @param element Tipo del elemento.
-   * @returns {T[] | string} Elementos de la colección o un mensaje de error.
+   * Devuelve el tipo de película.
+   * @returns {string} Tipo de película (Saga, Independiente, etc)
    */
-  searchBy(element: string): T[] | string{
-    let typeItems: T[] = [];
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.type === element)
-        typeItems.push(this.items[i]);
-    }
-    if (typeItems.length === 0) return "No se ha encontrado ningún elemento con esa característica";
-    else return typeItems;
+  getType(): string {
+    return this.type;
   }
 }

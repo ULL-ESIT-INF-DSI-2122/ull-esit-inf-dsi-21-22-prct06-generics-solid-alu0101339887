@@ -6,15 +6,9 @@ import {Streamable} from "./Streamable"
  */
 export abstract class BasicStreamableCollection<T> implements Streamable<T> {
   protected items: T[] = [];
-  protected name: string;
-  protected year: number;
-  protected genre: string;
-
-  constructor(name: string, year: number, genre: string) {
-    this.name = name;
-    this.year = year;
-    this.genre = genre;
-  }
+  protected name: string = "";
+  protected genre: string = "";
+  protected year: number = 0;
 
   /**
    * Añade un item de tipo T a la colección.
@@ -63,12 +57,7 @@ export abstract class BasicStreamableCollection<T> implements Streamable<T> {
    * @param name Nombre del elemento.
    * @returns {T | string} Elemento de la colección o un mensaje de error.
    */
-  searchByName(name: string): T | string{
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.name === name) return this.items[i];
-    }
-    return "No se ha encontrado ningún elemento con este nombre";
-  }
+  abstract searchByName(name: string): T | string;
 
   /**
    * Busca elementos según su género y los devuelve en caso de existir, en otro caso
@@ -76,14 +65,7 @@ export abstract class BasicStreamableCollection<T> implements Streamable<T> {
    * @param genre Género del elemento.
    * @returns {T[] | string} Elementos de la colección o un mensaje de error.
    */
-  searchByGenre(genre: string): T[] | string{
-    let genreItems: T[] = [];
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.genre === genre) genreItems.push(this.items[i]);
-    }
-    if (genreItems.length === 0) return "No se ha encontrado ningún elemento de este género";
-    else return genreItems;
-  }
+  abstract searchByGenre(genre: string): T[] | string;
 
   /**
    * Busca elementos según su año de estreno y los devuelve en caso de existir, en otro caso
@@ -91,14 +73,7 @@ export abstract class BasicStreamableCollection<T> implements Streamable<T> {
    * @param year Año de estreno del elemento.
    * @returns {T[] | string} Elementos de la colección o un mensaje de error.
    */
-  searchByYear(year: number): T[] | string{
-    let yearItems: T[] = [];
-    for (let i = 0; i < this.items.length; i++) {
-      if (this.year === year) yearItems.push(this.items[i]);
-    }
-    if (yearItems.length === 0) return "No se ha encontrado ningún elemento de este año";
-    else return yearItems;
-  }
+  abstract searchByYear(year: number): T[] | string;
 
   /**
    * Método abstracto de búsqueda.
