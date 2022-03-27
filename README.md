@@ -563,7 +563,7 @@ abstract searchBy(element: string): T[] | string;
 
 Estas clases serán heredadas de la clase BasicStreamableCollection ya que tendrán en común la mayoría de las funciones que se encuentran en la clase BasicStreamableCollection. 
 
-Por otro lado, las dos funciones abstractas que se encuentran declaradas en la clase BasicStreamableCollection tendrán que ser definidas en cada una de las subclases, en este caso se definirían de la siguiente manera:
+Por otro lado, las funciones abstractas que se encuentran declaradas en la clase BasicStreamableCollection tendrán que ser definidas en cada una de las subclases, en este caso se definirían de la siguiente manera:
 
 #### ```searchByName()```
 
@@ -676,9 +676,69 @@ searchBy(element: string): Series[] | string{
 }
 ```
 
+### Clase ```Content```
 
+Content es una clase abstracta que almacenará las funciones comunes que serán necesarias para manejar la información de cada tipo de contenido (películas, series y documentales). 
 
+- ```getName()```. Devuelve el nombre del elemento.
 
+```
+getName(): string {
+  return this.name;
+}
+```
+
+- ```getGenre()```. Devuelve el género del elemento.
+
+```
+getGenre(): string {
+  return this.genre;
+}
+```
+
+- ```getYear()```. Devuelve el año de estremo del elemento.
+
+```
+getYear(): number {
+  return this.year;
+}
+```
+
+### Clases ```Documentary```, ```Movies``` y ```Series```
+
+Estas clases serán heredadas de la clase Content ya que tendrán en común la mayoría de las funciones que se encuentran en la clase Content. 
+
+Por otro lado, cada una de estas subclases tendrán  definidas unas funciones específicas para cada una de ellas, en este caso se definirían de la siguiente manera:
+
+#### ```Documentary```
+
+- ```getTime()```. Devuelve el tiempo que dura el documental.
+
+```
+getTime() {
+  return this.time;
+}
+```
+
+#### ```Movies```
+
+- ```getType()```. Devuelve el tipo de película.
+
+```
+getType(): string {
+  return this.type;
+}
+```
+
+#### ```Series```
+
+- ```getCapNumber()```. Devuelve el número de capítulos que tiene la serie.
+
+```
+getCapNumber(): number {
+  return this.capNumber;
+}
+```
 
 ## Ejercicio 3. El cifrado indescifrable.
 

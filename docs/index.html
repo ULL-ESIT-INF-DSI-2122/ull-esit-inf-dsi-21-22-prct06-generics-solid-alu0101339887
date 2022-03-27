@@ -386,7 +386,7 @@
   <h3>Clases <code>DocumentaryCollection</code>, <code>MoviesCollection</code> y <code>SeriesCollection</code></h3>
 </a>
 <p>Estas clases serán heredadas de la clase BasicStreamableCollection ya que tendrán en común la mayoría de las funciones que se encuentran en la clase BasicStreamableCollection. </p>
-<p>Por otro lado, las dos funciones abstractas que se encuentran declaradas en la clase BasicStreamableCollection tendrán que ser definidas en cada una de las subclases, en este caso se definirían de la siguiente manera:</p>
+<p>Por otro lado, las funciones abstractas que se encuentran declaradas en la clase BasicStreamableCollection tendrán que ser definidas en cada una de las subclases, en este caso se definirían de la siguiente manera:</p>
 
 <a href="#searchbyname" id="searchbyname" style="color: inherit; text-decoration: none;">
   <h4><code>searchByName()</code></h4>
@@ -426,6 +426,59 @@
 <li><code>SeriesCollection</code>. Busca elementos según el número de capítulos que tenga la serie y los devuelve en caso de existir, en otro caso se muestra un mensaje de error.</li>
 </ul>
 <pre><code><span class="hl-0">searchBy</span><span class="hl-1">(</span><span class="hl-2">element</span><span class="hl-1">: </span><span class="hl-2">string</span><span class="hl-1">): </span><span class="hl-2">Series</span><span class="hl-1">[] | </span><span class="hl-2">string</span><span class="hl-1">{</span><br/><span class="hl-1">  </span><span class="hl-4">let</span><span class="hl-1"> </span><span class="hl-2">capNumItems</span><span class="hl-1">: </span><span class="hl-11">Series</span><span class="hl-1">[] = [];</span><br/><span class="hl-1">  </span><span class="hl-3">for</span><span class="hl-1"> (</span><span class="hl-4">let</span><span class="hl-1"> </span><span class="hl-2">i</span><span class="hl-1"> = </span><span class="hl-5">0</span><span class="hl-1">; </span><span class="hl-2">i</span><span class="hl-1"> &lt; </span><span class="hl-4">this</span><span class="hl-1">.</span><span class="hl-2">items</span><span class="hl-1">.</span><span class="hl-2">length</span><span class="hl-1">; </span><span class="hl-2">i</span><span class="hl-1">++) {</span><br/><span class="hl-1">    </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-4">this</span><span class="hl-1">.</span><span class="hl-2">items</span><span class="hl-1">[</span><span class="hl-2">i</span><span class="hl-1">].</span><span class="hl-0">getCapNumber</span><span class="hl-1">() === </span><span class="hl-11">Number</span><span class="hl-1">(</span><span class="hl-2">element</span><span class="hl-1">))</span><br/><span class="hl-1">      </span><span class="hl-2">capNumItems</span><span class="hl-1">.</span><span class="hl-0">push</span><span class="hl-1">(</span><span class="hl-4">this</span><span class="hl-1">.</span><span class="hl-2">items</span><span class="hl-1">[</span><span class="hl-2">i</span><span class="hl-1">]);</span><br/><span class="hl-1">  }</span><br/><span class="hl-1">  </span><span class="hl-3">if</span><span class="hl-1"> (</span><span class="hl-2">capNumItems</span><span class="hl-1">.</span><span class="hl-2">length</span><span class="hl-1"> === </span><span class="hl-5">0</span><span class="hl-1">) </span><span class="hl-3">return</span><span class="hl-1"> </span><span class="hl-8">&quot;No se ha encontrado ningún elemento con esa cantidad de capítulos&quot;</span><span class="hl-1">;</span><br/><span class="hl-1">  </span><span class="hl-3">else</span><span class="hl-1"> </span><span class="hl-3">return</span><span class="hl-1"> </span><span class="hl-2">capNumItems</span><span class="hl-1">;</span><br/><span class="hl-1">}</span>
+</code></pre>
+
+<a href="#clase-content" id="clase-content" style="color: inherit; text-decoration: none;">
+  <h3>Clase <code>Content</code></h3>
+</a>
+<p>Content es una clase abstracta que almacenará las funciones comunes que serán necesarias para manejar la información de cada tipo de contenido (películas, series y documentales). </p>
+<ul>
+<li><code>getName()</code>. Devuelve el nombre del elemento.</li>
+</ul>
+<pre><code><span class="hl-0">getName</span><span class="hl-1">(): </span><span class="hl-2">string</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-3">return</span><span class="hl-1"> </span><span class="hl-4">this</span><span class="hl-1">.</span><span class="hl-2">name</span><span class="hl-1">;</span><br/><span class="hl-1">}</span>
+</code></pre>
+<ul>
+<li><code>getGenre()</code>. Devuelve el género del elemento.</li>
+</ul>
+<pre><code><span class="hl-0">getGenre</span><span class="hl-1">(): </span><span class="hl-2">string</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-3">return</span><span class="hl-1"> </span><span class="hl-4">this</span><span class="hl-1">.</span><span class="hl-2">genre</span><span class="hl-1">;</span><br/><span class="hl-1">}</span>
+</code></pre>
+<ul>
+<li><code>getYear()</code>. Devuelve el año de estremo del elemento.</li>
+</ul>
+<pre><code><span class="hl-0">getYear</span><span class="hl-1">(): </span><span class="hl-2">number</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-3">return</span><span class="hl-1"> </span><span class="hl-4">this</span><span class="hl-1">.</span><span class="hl-2">year</span><span class="hl-1">;</span><br/><span class="hl-1">}</span>
+</code></pre>
+
+<a href="#clases-documentary-movies-y-series" id="clases-documentary-movies-y-series" style="color: inherit; text-decoration: none;">
+  <h3>Clases <code>Documentary</code>, <code>Movies</code> y <code>Series</code></h3>
+</a>
+<p>Estas clases serán heredadas de la clase Content ya que tendrán en común la mayoría de las funciones que se encuentran en la clase Content. </p>
+<p>Por otro lado, cada una de estas subclases tendrán  definidas unas funciones específicas para cada una de ellas, en este caso se definirían de la siguiente manera:</p>
+
+<a href="#documentary" id="documentary" style="color: inherit; text-decoration: none;">
+  <h4><code>Documentary</code></h4>
+</a>
+<ul>
+<li><code>getTime()</code>. Devuelve el tiempo que dura el documental.</li>
+</ul>
+<pre><code><span class="hl-0">getTime</span><span class="hl-1">() {</span><br/><span class="hl-1">  </span><span class="hl-3">return</span><span class="hl-1"> </span><span class="hl-4">this</span><span class="hl-1">.</span><span class="hl-2">time</span><span class="hl-1">;</span><br/><span class="hl-1">}</span>
+</code></pre>
+
+<a href="#movies" id="movies" style="color: inherit; text-decoration: none;">
+  <h4><code>Movies</code></h4>
+</a>
+<ul>
+<li><code>getType()</code>. Devuelve el tipo de película.</li>
+</ul>
+<pre><code><span class="hl-0">getType</span><span class="hl-1">(): </span><span class="hl-2">string</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-3">return</span><span class="hl-1"> </span><span class="hl-4">this</span><span class="hl-1">.</span><span class="hl-2">type</span><span class="hl-1">;</span><br/><span class="hl-1">}</span>
+</code></pre>
+
+<a href="#series" id="series" style="color: inherit; text-decoration: none;">
+  <h4><code>Series</code></h4>
+</a>
+<ul>
+<li><code>getCapNumber()</code>. Devuelve el número de capítulos que tiene la serie.</li>
+</ul>
+<pre><code><span class="hl-0">getCapNumber</span><span class="hl-1">(): </span><span class="hl-2">number</span><span class="hl-1"> {</span><br/><span class="hl-1">  </span><span class="hl-3">return</span><span class="hl-1"> </span><span class="hl-4">this</span><span class="hl-1">.</span><span class="hl-2">capNumber</span><span class="hl-1">;</span><br/><span class="hl-1">}</span>
 </code></pre>
 
 <a href="#ejercicio-3-el-cifrado-indescifrable" id="ejercicio-3-el-cifrado-indescifrable" style="color: inherit; text-decoration: none;">
